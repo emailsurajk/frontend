@@ -11,6 +11,7 @@ import {
   AreaRegistryEntry,
   createAreaRegistryEntry,
   subscribeAreaRegistry,
+  AreaRegistryMultipleEntryMutableParams
 } from "../../../data/area_registry";
 import {
   DeviceRegistryEntry,
@@ -18,7 +19,7 @@ import {
 } from "../../../data/device_registry";
 import {
   EntityRegistryEntry,
-  subscribeEntityRegistry,
+  subscribeEntityRegistry
 } from "../../../data/entity_registry";
 import { showAlertDialog } from "../../../dialogs/generic/show-dialog-box";
 import "../../../layouts/hass-loading-screen";
@@ -30,6 +31,8 @@ import { configSections } from "../ha-panel-config";
 import {
   loadAreaRegistryDetailDialog,
   showAreaRegistryDetailDialog,
+  showAreaRegistryDetailForMultipleDialog
+
 } from "./show-dialog-area-registry-detail";
 
 @customElement("ha-config-areas-dashboard")
@@ -180,8 +183,20 @@ export class HaConfigAreasDashboard extends SubscribeMixin(LitElement) {
           extended
           @click=${this._createArea}
         >
+
           <ha-svg-icon slot="icon" .path=${mdiPlus}></ha-svg-icon>
         </ha-fab>
+        <ha-fab
+        slot="fab"
+        .label=${this.hass.localize(
+          "ui.panel.config.areas.picker.create_multiple"
+        )}
+        extended
+        @click=${this._createAreaMultiple}
+      >
+
+        <ha-svg-icon slot="icon" .path=${mdiPlus}></ha-svg-icon>
+      </ha-fab>
       </hass-tabs-subpage>
     `;
   }
@@ -193,6 +208,10 @@ export class HaConfigAreasDashboard extends SubscribeMixin(LitElement) {
 
   private _createArea() {
     this._openDialog();
+  }
+
+  private _createAreaMultiple() {
+    this._openDialogMultiple();
   }
 
   private _showHelp() {
@@ -219,7 +238,13 @@ export class HaConfigAreasDashboard extends SubscribeMixin(LitElement) {
         createAreaRegistryEntry(this.hass!, values),
     });
   }
-
+  private _openDialogMultiple(entry?: AreaRegistryMultipleEntryMutableParams) {
+    showAreaRegistryDetailForMultipleDialog(this, {
+      entry,
+      createEntry: async (values) =>
+        createAreaRegistryEntry(this.hass!, values),
+    });
+  }
   static get styles(): CSSResultGroup {
     return css`
       hass-loading-screen {

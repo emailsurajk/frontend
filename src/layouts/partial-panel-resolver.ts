@@ -28,6 +28,7 @@ const COMPONENTS = {
     import("../panels/developer-tools/ha-panel-developer-tools"),
   lovelace: () => import("../panels/lovelace/ha-panel-lovelace"),
   history: () => import("../panels/history/ha-panel-history"),
+  manager_dashboard: () => import("../panels/manager-dashboard/ha-panel-manager-dashboard"),
   iframe: () => import("../panels/iframe/ha-panel-iframe"),
   logbook: () => import("../panels/logbook/ha-panel-logbook"),
   mailbox: () => import("../panels/mailbox/ha-panel-mailbox"),
@@ -130,6 +131,8 @@ class PartialPanelResolver extends HassRouterPage {
 
   private getRoutes(panels: Panels): RouterOptions {
     const routes: RouterOptions["routes"] = {};
+    console.log(panels);
+    console.log(COMPONENTS);
     Object.values(panels).forEach((panel) => {
       const data: RouteOptions = {
         tag: `ha-panel-${panel.component_name}`,

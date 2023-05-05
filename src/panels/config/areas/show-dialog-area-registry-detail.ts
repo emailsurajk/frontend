@@ -2,6 +2,7 @@ import { fireEvent } from "../../../common/dom/fire_event";
 import {
   AreaRegistryEntry,
   AreaRegistryEntryMutableParams,
+  AreaRegistryMultipleEntryMutableParams
 } from "../../../data/area_registry";
 
 export interface AreaRegistryDetailDialogParams {
@@ -13,8 +14,16 @@ export interface AreaRegistryDetailDialogParams {
   removeEntry?: () => Promise<boolean>;
 }
 
+
+export interface AreaRegistryDetailMultipleDialogParams {
+  entry?: AreaRegistryMultipleEntryMutableParams;
+  createEntry?: (values: AreaRegistryEntryMutableParams) => Promise<unknown>;
+}
 export const loadAreaRegistryDetailDialog = () =>
   import("./dialog-area-registry-detail");
+
+const loadAreaRegistryDetailDialogMultiple = () =>
+  import("./dialog-area-registry-detail-multiple");
 
 export const showAreaRegistryDetailDialog = (
   element: HTMLElement,
@@ -23,6 +32,17 @@ export const showAreaRegistryDetailDialog = (
   fireEvent(element, "show-dialog", {
     dialogTag: "dialog-area-registry-detail",
     dialogImport: loadAreaRegistryDetailDialog,
+    dialogParams: systemLogDetailParams,
+  });
+};
+
+export const showAreaRegistryDetailForMultipleDialog = (
+  element: HTMLElement,
+  systemLogDetailParams: AreaRegistryDetailMultipleDialogParams
+): void => {
+  fireEvent(element, "show-dialog", {
+    dialogTag: "dialog-area-registry-detail-multiple",
+    dialogImport: loadAreaRegistryDetailDialogMultiple,
     dialogParams: systemLogDetailParams,
   });
 };

@@ -68,6 +68,7 @@ const SORT_VALUE_URL_PATHS = {
   map: 2,
   logbook: 3,
   history: 4,
+  manager_dashboard:5,
   "developer-tools": 9,
   config: 11,
 };
@@ -156,7 +157,8 @@ const computePanels = memoizeOne(
     if (!panels) {
       return [[], []];
     }
-
+    console.log(panels);
+    console.log(defaultPanel);
     const beforeSpacer: PanelInfo[] = [];
     const afterSpacer: PanelInfo[] = [];
 

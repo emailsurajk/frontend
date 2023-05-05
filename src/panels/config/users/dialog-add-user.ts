@@ -51,6 +51,8 @@ export class DialogAddUser extends LitElement {
   @state() private _localOnly?: boolean;
 
   @state() private _allowChangeName = true;
+  
+  @state() private _isSubAdmin?: boolean;
 
   public showDialog(params: AddUserDialogParams) {
     this._params = params;
@@ -62,6 +64,7 @@ export class DialogAddUser extends LitElement {
     this._localOnly = false;
     this._error = undefined;
     this._loading = false;
+    this._isSubAdmin = false;
 
     if (this._params.name) {
       this._allowChangeName = false;
@@ -69,6 +72,7 @@ export class DialogAddUser extends LitElement {
     } else {
       this._allowChangeName = true;
     }
+    console.log(this.hass)
   }
 
   protected firstUpdated(changedProperties: PropertyValues) {
@@ -158,6 +162,26 @@ export class DialogAddUser extends LitElement {
               "ui.panel.config.users.add_user.password_not_match"
             )}
           ></paper-input>
+          ${this.hass.user?.is_admin
+            ? html`
+            <div class="row">
+              <ha-formfield
+                .label=${this.hass.localize(
+                  "ui.panel.config.users.add_user.sub_admin"
+                )}
+                .dir=${computeRTLDirection(this.hass)}
+              >
+                <ha-switch
+                  
+                  .checked=${this._isSubAdmin}
+                  @change=${this._isSubAdminChanged}
+                >
+                </ha-switch>
+              </ha-formfield>
+            </div>
+              `
+            : ""}
+          
           <div class="row">
             <ha-formfield
               .label=${this.hass.localize(
@@ -245,6 +269,10 @@ export class DialogAddUser extends LitElement {
     this._localOnly = ev.target.checked;
   }
 
+  private _isSubAdminChanged(ev): void {
+    this._isSubAdmin = ev.target.checked;
+  }
+
   private async _createUser(ev) {
     ev.preventDefault();
     if (!this._name || !this._username || !this._password) {
@@ -260,7 +288,8 @@ export class DialogAddUser extends LitElement {
         this.hass,
         this._name,
         [this._isAdmin ? SYSTEM_GROUP_ID_ADMIN : SYSTEM_GROUP_ID_USER],
-        this._localOnly
+        this._localOnly,
+        this._isSubAdmin,
       );
       user = userResponse.user;
     } catch (err: any) {

@@ -31,6 +31,8 @@ class DialogUserDetail extends LitElement {
 
   @state() private _isAdmin?: boolean;
 
+  @state() private _isSubAdmin?: boolean;
+
   @state() private _localOnly?: boolean;
 
   @state() private _isActive?: boolean;
@@ -48,6 +50,7 @@ class DialogUserDetail extends LitElement {
     this._isAdmin = params.entry.group_ids.includes(SYSTEM_GROUP_ID_ADMIN);
     this._localOnly = params.entry.local_only;
     this._isActive = params.entry.is_active;
+    this._isSubAdmin = params.entry.is_sub_admin;
     await this.updateComplete;
   }
 
@@ -110,6 +113,24 @@ class DialogUserDetail extends LitElement {
                 </ha-switch>
               </ha-formfield>
             </div>
+            <div class="row">
+              <ha-formfield
+                .label=${this.hass.localize(
+                  "ui.panel.config.users.editor.sub_admin"
+                )}
+                .dir=${computeRTLDirection(this.hass)}
+              >
+                <ha-switch
+                  
+                  .checked=${this._isSubAdmin}
+                  @change=${this._isSubAdminChanged}
+                >
+                </ha-switch>
+              </ha-formfield>
+           </div>
+
+
+
             <div class="row">
               <ha-formfield
                 .label=${this.hass.localize(
@@ -221,6 +242,9 @@ class DialogUserDetail extends LitElement {
     this._localOnly = ev.target.checked;
   }
 
+  private _isSubAdminChanged(ev): void {
+    this._isSubAdmin = ev.target.checked;
+  }
   private _activeChanged(ev): void {
     this._isActive = ev.target.checked;
   }
@@ -235,6 +259,7 @@ class DialogUserDetail extends LitElement {
           this._isAdmin ? SYSTEM_GROUP_ID_ADMIN : SYSTEM_GROUP_ID_USER,
         ],
         local_only: this._localOnly,
+        is_sub_admin: this._isSubAdmin,
       });
       this._close();
     } catch (err: any) {

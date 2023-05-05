@@ -19,6 +19,7 @@ export interface User {
   name: string;
   is_owner: boolean;
   is_active: boolean;
+  is_sub_admin: boolean;
   local_only: boolean;
   system_generated: boolean;
   group_ids: (keyof TranslationDict["groups"])[];
@@ -30,6 +31,7 @@ export interface UpdateUserParams {
   is_active?: User["is_active"];
   group_ids?: User["group_ids"];
   local_only?: boolean;
+  is_sub_admin?: User["is_sub_admin"];
 }
 
 export const fetchUsers = async (hass: HomeAssistant) =>
@@ -42,13 +44,15 @@ export const createUser = async (
   name: string,
   // eslint-disable-next-line: variable-name
   group_ids?: User["group_ids"],
-  local_only?: boolean
+  local_only?: boolean,
+  is_sub_admin?:boolean
 ) =>
   hass.callWS<{ user: User }>({
     type: "config/auth/create",
     name,
     group_ids,
     local_only,
+    is_sub_admin
   });
 
 export const updateUser = async (

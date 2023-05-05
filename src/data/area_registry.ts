@@ -13,6 +13,8 @@ export interface AreaRegistryEntry {
   aliases: string[];
 }
 
+
+
 export interface AreaEntityLookup {
   [areaId: string]: EntityRegistryEntry[];
 }
@@ -26,6 +28,13 @@ export interface AreaRegistryEntryMutableParams {
   picture?: string | null;
   aliases?: string[];
 }
+
+export interface AreaRegistryMultipleEntryMutableParams {
+  name: string;
+  no_start_from: number;
+  no_of_area_tocreate: number;
+}
+
 
 export const createAreaRegistryEntry = (
   hass: HomeAssistant,

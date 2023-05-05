@@ -9595,6 +9595,7 @@ __metadata:
     merge-stream: 2.0.0
     mocha: 10.2.0
     node-vibrant: 3.2.1-alpha.1
+    nvm: 0.0.4
     object-hash: 3.0.0
     open: 8.4.2
     pinst: 3.0.0
@@ -12257,6 +12258,15 @@ __metadata:
   version: 1.0.1
   resolution: "number-is-nan@npm:1.0.1"
   checksum: 13656bc9aa771b96cef209ffca31c31a03b507ca6862ba7c3f638a283560620d723d52e626d57892c7fff475f4c36ac07f0600f14544692ff595abff214b9ffb
+  languageName: node
+  linkType: hard
+
+"nvm@npm:0.0.4":
+  version: 0.0.4
+  resolution: "nvm@npm:0.0.4"
+  bin:
+    nvm: ./bin/nvm
+  checksum: 2ac6a7073f6278adb303a0cec03abfb125db26d7e7612d9310af676a62275d6b7608726dd06ec21113f317865b168390dca7855801297d2e4cf9f3925827a98f
   languageName: node
   linkType: hard
 

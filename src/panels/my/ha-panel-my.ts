@@ -218,6 +218,10 @@ export const getMyRedirects = (hasSupervisor: boolean): Redirects => ({
     component: "history",
     redirect: "/history",
   },
+  manager_dashboard: {
+    component: "manager_dashboard",
+    redirect: "/manager_dashboard",
+  },
   media_browser: {
     component: "media_source",
     redirect: "/media-browser",
